@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PPC Knowledge Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --olive: #555736;
+      --olive-light: rgba(85,87,54,0.10);
+      --olive-mid: rgba(85,87,54,0.18);
+      --sage: #ced4c8;
+      --near-black: #272421;
+      --warm-gray: #4d4642;
+      --bg: #F5F3EF;
+      --surface: #ffffff;
+      --border: #E2DED8;
+      --text-muted: #9c9690;
+      --text-sub: #6b6762;
+      --radius: 6px;
+      --radius-sm: 4px;
+    }
+
+    body {
+      font-family: 'Work Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--near-black);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--near-black);
+      padding: 28px 40px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    .header-icon {
+      width: 40px; height: 40px;
+      background: var(--olive);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .header-title {
+      font-family: 'Jost', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+    .header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.38);
+      margin-top: 2px;
+      letter-spacing: 0.5px;
+    }
+    .search-wrap {
+      position: relative;
+      flex: 0 0 260px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.3);
+      font-size: 14px;
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 13px;
+      padding: 8px 12px 8px 34px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-input::placeholder { color: rgba(255,255,255,0.28); }
+    .search-input:focus { border-color: rgba(255,255,255,0.28); }
+
+    /* ── TABS ── */
+    .tabs-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+    }
+    .tabs-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+    }
+    .tab {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      display: flex; align-items: center; gap: 6px;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .tab:hover { color: var(--near-black); }
+    .tab.active { color: var(--olive); border-bottom-color: var(--olive); }
+    .tab-count {
+      background: var(--bg);
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 20px;
+    }
+    .tab.active .tab-count {
+      background: var(--olive-light);
+      color: var(--olive);
+    }
+
+    /* ── BODY ── */
+    .page-body {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 40px 80px;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .open-hub {
+      font-size: 12px;
+      color: var(--olive);
+      text-decoration: none;
+      font-weight: 500;
+      opacity: 0.85;
+      transition: opacity 0.15s;
+    }
+    .open-hub:hover { opacity: 1; }
+
+    /* ── GRID ── */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px 16px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: transparent;
+      transition: background 0.15s;
+    }
+    .card:hover { border-color: var(--olive); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(85,87,54,0.09); }
+    .card:hover::before { background: var(--olive); }
+
+    .card-top { display: flex; align-items: center; gap: 10px; }
+    .card-emoji {
+      width: 34px; height: 34px;
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .card-name {
+      font-family: 'Jost', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--near-black);
+      line-height: 1.3;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .tag-sop    { background: rgba(59,130,246,0.10); color: #2563eb; }
+    .tag-play   { background: rgba(139,92,246,0.10); color: #7c3aed; }
+    .tag-prompt { background: rgba(249,115,22,0.10); color: #ea580c; }
+    .card-arrow { font-size: 11px; color: var(--border); }
+
+    /* ── SOP CHECKLIST CARD ── */
+    .checklist-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 36px;
+    }
+    .checklist-title {
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px 24px;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--near-black);
+      cursor: pointer;
+      padding: 5px 0;
+    }
+    .check-box {
+      width: 17px; height: 17px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border);
+      flex-shrink: 0;
+      transition: background 0.15s, border-color 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .check-item.done .check-box {
+      background: var(--olive);
+      border-color: var(--olive);
+    }
+    .check-item.done .check-box::after { content: '✓'; font-size: 10px; color: #fff; font-weight: 700; }
+    .check-item.done .check-label { color: var(--text-muted); text-decoration: line-through; }
+    .check-label { flex: 1; }
+
+    /* ── QUICK REF TABLE ── */
+    .ref-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 36px;
+    }
+    .ref-card table { width: 100%; border-collapse: collapse; }
+    .ref-card th {
+      background: var(--bg);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 10px 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .ref-card td {
+      padding: 11px 18px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--bg);
+      vertical-align: middle;
+    }
+    .ref-card tr:last-child td { border-bottom: none; }
+    .ref-card tr:hover td { background: var(--bg); }
+    .ref-link {
+      color: var(--olive);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 12.5px;
+    }
+    .ref-link:hover { text-decoration: underline; }
+
+    /* ── HIDDEN ── */
+    .section-block { display: block; }
+    .section-block.hidden { display: none; }
+
+    /* ── NO RESULTS ── */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+      display: none;
+    }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .stat-icon {
+      width: 38px; height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .stat-icon.blue   { background: rgba(59,130,246,0.10); }
+    .stat-icon.purple { background: rgba(139,92,246,0.10); }
+    .stat-icon.orange { background: rgba(249,115,22,0.10); }
+    .stat-num {
+      font-family: 'Jost', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--near-black);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="header-icon">📚</div>
+      <div>
+        <div class="header-title">Knowledge Hub</div>
+        <div class="header-sub">Platinum Premier Construction · Internal Use Only</div>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" type="text" id="searchInput" placeholder="Search SOPs, playbooks, prompts…" oninput="filterCards()" />
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <div class="tabs-inner">
+    <div class="tab active" onclick="setTab('all', this)">All <span class="tab-count">25</span></div>
+    <div class="tab" onclick="setTab('sop', this)">📋 SOPs <span class="tab-count">8</span></div>
+    <div class="tab" onclick="setTab('playbook', this)">🎯 Playbooks <span class="tab-count">12</span></div>
+    <div class="tab" onclick="setTab('prompt', this)">🤖 AI Prompts <span class="tab-count">10</span></div>
+    <div class="tab" onclick="setTab('ref', this)">⚡ Quick Reference</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="page-body">
+
+  <!-- STAT ROW -->
+  <div class="stat-row section-block" id="block-stats">
+    <div class="stat-box">
+      <div class="stat-icon blue">📋</div>
+      <div>
+        <div class="stat-num">8</div>
+        <div class="stat-label">SOPs to build</div>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon purple">🎯</div>
+      <div>
+        <div class="stat-num">12</div>
+        <div class="stat-label">Playbooks complete</div>
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-icon orange">🤖</div>
+      <div>
+        <div class="stat-num">10</div>
+        <div class="stat-label">Prompt templates</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOPs SECTION -->
+  <div class="section-block" id="block-sop">
+    <div class="section-header">
+      <div class="section-title">📋 SOPs — Standard Operating Procedures</div>
+      <a class="open-hub" href="https://app.notion.com/p/34a34595b2aa81b48377ec547be3aa62" target="_blank">Open SOP Hub →</a>
+    </div>
+
+    <div class="checklist-card">
+      <div class="checklist-title">🏗️ SOPs to Build Out</div>
+      <div class="checklist-grid" id="sopChecklist">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><span class="check-label">Lead intake process</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><span class="check-label">Monthly QuickBooks reconciliation</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><span class="check-label">Proposal creation & send</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><span class="check-label">Content creation & scheduling</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><span class="check-label">Invoice & payment tracking</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><span class="check-label">New client onboarding</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><span class="check-label">Subcontractor coordination</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><span class="check-label">WC audit prep (annual)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAYBOOKS SECTION -->
+  <div class="section-block" id="block-playbook">
+    <div class="section-header">
+      <div class="section-title">🎯 Playbooks</div>
+      <a class="open-hub" href="https://app.notion.com/p/37934595b2aa81d7984ac8a869fdee93" target="_blank">Open Playbook Hub →</a>
+    </div>
+
+    <div class="grid-3" id="playbookGrid">
+
+      <a class="card" href="https://app.notion.com/p/37634595b2aa81b29594cc8f7f90798e" target="_blank" data-type="playbook" data-text="lead process first contact signed proposal deposit">
+        <div class="card-top">
+          <div class="card-emoji">🎯</div>
+          <div class="card-name">Lead Process</div>
+        </div>
+        <div class="card-desc">First contact → signed proposal + deposit. Rachel owns this end to end.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37734595b2aa81ec87f9da5a3bc96215" target="_blank" data-type="playbook" data-text="pre-construction scope proposal revisions selections">
+        <div class="card-top">
+          <div class="card-emoji">🛠️</div>
+          <div class="card-name">Pre-Construction</div>
+        </div>
+        <div class="card-desc">Scope lock → construction trigger. Proposals, revisions, selections, sub estimates.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37934595b2aa814392bfd5eb99cbe054" target="_blank" data-type="playbook" data-text="construction phase deposit invoicing change orders project close">
+        <div class="card-top">
+          <div class="card-emoji">🏗️</div>
+          <div class="card-name">Construction Phase</div>
+        </div>
+        <div class="card-desc">Deposit received → project close. Invoicing, change orders, sub bills, lien waivers.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37634595b2aa81dcbfbae1867d7a04fc" target="_blank" data-type="playbook" data-text="improved operations end to end all stages lead close">
+        <div class="card-top">
+          <div class="card-emoji">🏗️</div>
+          <div class="card-name">Improved Operations v2</div>
+        </div>
+        <div class="card-desc">Full end-to-end system — all 7 stages from lead to project close. The full PPC playbook.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37634595b2aa81829e1bfd6370473ce2" target="_blank" data-type="playbook" data-text="office operations daily ops SOPs morning routine content">
+        <div class="card-top">
+          <div class="card-emoji">🗂️</div>
+          <div class="card-name">Office Operations</div>
+        </div>
+        <div class="card-desc">Daily ops, morning/afternoon/EOD routine, 8 core SOPs, content system, Claude prompts.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37934595b2aa8118849dd5d1a291f7be" target="_blank" data-type="playbook" data-text="AI assisted operations Claude JobTread Notion automation">
+        <div class="card-top">
+          <div class="card-emoji">🤖</div>
+          <div class="card-name">AI-Assisted Operations</div>
+        </div>
+        <div class="card-desc">How PPC uses Claude, JobTread, and Notion. Automations, prompts, workspace management.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37934595b2aa816aa7c1d55d6592aff8" target="_blank" data-type="playbook" data-text="social media content captions Instagram Facebook LinkedIn newsletter">
+        <div class="card-top">
+          <div class="card-emoji">📣</div>
+          <div class="card-name">Social Media & Content</div>
+        </div>
+        <div class="card-desc">Weekly content workflow — IG, FB, LinkedIn, newsletter. Captions, scheduling, pillars.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37934595b2aa81929be8ca9fc089a44e" target="_blank" data-type="playbook" data-text="lead generation Instagram Facebook LinkedIn newsletter BNI">
+        <div class="card-top">
+          <div class="card-emoji">🎯</div>
+          <div class="card-name">Lead Generation</div>
+        </div>
+        <div class="card-desc">Attracting & converting leads — IG, FB, LinkedIn dual-account, newsletter growth.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37a34595b2aa8197a9e9f1b1600a77a6" target="_blank" data-type="playbook" data-text="subcontractor management onboarding COI invoices 1099">
+        <div class="card-top">
+          <div class="card-emoji">🔧</div>
+          <div class="card-name">Subcontractor Management</div>
+        </div>
+        <div class="card-desc">Onboarding, COI tracking, invoice verification, 1099 prep. Subs vs. vendors.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37a34595b2aa8114a8f4e30f3bd8f993" target="_blank" data-type="playbook" data-text="finance QuickBooks reconciliation reporting P&L 1099">
+        <div class="card-top">
+          <div class="card-emoji">💰</div>
+          <div class="card-name">Finance</div>
+        </div>
+        <div class="card-desc">QuickBooks daily routine, monthly reconciliation, P&L to Pedro, 1099s.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37a34595b2aa81f997b7fbbd987cc76d" target="_blank" data-type="playbook" data-text="client experience updates complaints close 45 day checkin">
+        <div class="card-top">
+          <div class="card-emoji">❤️</div>
+          <div class="card-name">Client Experience</div>
+        </div>
+        <div class="card-desc">Updates, delays, complaints, close experience, 45-day post-project check-in.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/37a34595b2aa81c2bce5c28e46be5e1f" target="_blank" data-type="playbook" data-text="website SEO AI search content blog Google Business">
+        <div class="card-top">
+          <div class="card-emoji">🌐</div>
+          <div class="card-name">Website & SEO</div>
+        </div>
+        <div class="card-desc">AI search visibility, Google Business, blog strategy, on-page SEO, lead gen.</div>
+        <div class="card-footer"><span class="tag tag-play">Playbook</span><span class="card-arrow">→</span></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- AI PROMPTS SECTION -->
+  <div class="section-block" id="block-prompt">
+    <div class="section-header">
+      <div class="section-title">🤖 AI Prompts</div>
+      <a class="open-hub" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank">Open Prompts Page →</a>
+    </div>
+
+    <div class="grid-3" id="promptGrid">
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="lead scoring intake summary new lead qualify">
+        <div class="card-top">
+          <div class="card-emoji">🎯</div>
+          <div class="card-name">Lead Scoring & Intake</div>
+        </div>
+        <div class="card-desc">Score a new lead and generate an intake summary from inquiry details.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="proposal description writer scope of work estimate">
+        <div class="card-top">
+          <div class="card-emoji">📄</div>
+          <div class="card-name">Proposal Description Writer</div>
+        </div>
+        <div class="card-desc">Write polished proposal scope descriptions from rough notes or bullet points.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="caption writer Instagram Facebook LinkedIn social media post">
+        <div class="card-top">
+          <div class="card-emoji">✍️</div>
+          <div class="card-name">Caption Writer</div>
+        </div>
+        <div class="card-desc">Generate captions for IG, FB, LinkedIn — with hashtags and CTAs included.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="email draft client reply follow up response professional">
+        <div class="card-top">
+          <div class="card-emoji">📧</div>
+          <div class="card-name">Email Drafts</div>
+        </div>
+        <div class="card-desc">Draft client replies and follow-up emails from context or bullet points.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="SOP brain dump process document standard operating procedure">
+        <div class="card-top">
+          <div class="card-emoji">📝</div>
+          <div class="card-name">SOP from Brain Dump</div>
+        </div>
+        <div class="card-desc">Turn a rough process description into a formatted SOP ready for Notion.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="meeting notes summarizer Fathom transcript key points action items">
+        <div class="card-top">
+          <div class="card-emoji">🗒️</div>
+          <div class="card-name">Meeting Notes Summarizer</div>
+        </div>
+        <div class="card-desc">Summarize meeting transcripts into key decisions and action items.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="monthly P&L report Pedro finance summary QuickBooks">
+        <div class="card-top">
+          <div class="card-emoji">💰</div>
+          <div class="card-name">Monthly P&L Summary</div>
+        </div>
+        <div class="card-desc">Generate a plain-language P&L summary to send to Pedro each month.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="newsletter draft email list contacts PPC updates">
+        <div class="card-top">
+          <div class="card-emoji">📬</div>
+          <div class="card-name">Newsletter Drafts</div>
+        </div>
+        <div class="card-desc">Draft newsletters for the PPC contact list — project features, tips, updates.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="client FAQ response customer questions answers">
+        <div class="card-top">
+          <div class="card-emoji">💬</div>
+          <div class="card-name">Client FAQ Responses</div>
+        </div>
+        <div class="card-desc">Write professional answers to common client questions about process and pricing.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+      <a class="card" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank" data-type="prompt" data-text="change order description scope additional work extra">
+        <div class="card-top">
+          <div class="card-emoji">📋</div>
+          <div class="card-name">Change Order Descriptions</div>
+        </div>
+        <div class="card-desc">Write clear, professional change order scope descriptions from rough notes.</div>
+        <div class="card-footer"><span class="tag tag-prompt">Prompt</span><span class="card-arrow">→</span></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE SECTION -->
+  <div class="section-block" id="block-ref">
+    <div class="section-header">
+      <div class="section-title">⚡ Quick Reference — Which Resource Do I Need?</div>
+    </div>
+    <div class="ref-card">
+      <table>
+        <thead>
+          <tr>
+            <th>If you're doing…</th>
+            <th>Use this resource</th>
+            <th>Open</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Handling a new lead</td><td>🎯 Lead Process Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37634595b2aa81b29594cc8f7f90798e" target="_blank">Open →</a></td></tr>
+          <tr><td>Drafting a proposal</td><td>🛠️ Pre-Construction Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37734595b2aa81ec87f9da5a3bc96215" target="_blank">Open →</a></td></tr>
+          <tr><td>Running active construction</td><td>🏗️ Construction Phase Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37934595b2aa814392bfd5eb99cbe054" target="_blank">Open →</a></td></tr>
+          <tr><td>Looking at the full system</td><td>🏗️ Improved Operations v2</td><td><a class="ref-link" href="https://app.notion.com/p/37634595b2aa81dcbfbae1867d7a04fc" target="_blank">Open →</a></td></tr>
+          <tr><td>Daily ops, SOPs, or content</td><td>🗂️ Office Operations Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37634595b2aa81829e1bfd6370473ce2" target="_blank">Open →</a></td></tr>
+          <tr><td>Planning or creating content</td><td>📣 Social Media & Content Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37934595b2aa816aa7c1d55d6592aff8" target="_blank">Open →</a></td></tr>
+          <tr><td>Setting up or improving AI + automation</td><td>🤖 AI-Assisted Operations Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37934595b2aa8118849dd5d1a291f7be" target="_blank">Open →</a></td></tr>
+          <tr><td>QuickBooks or monthly reporting</td><td>💰 Finance Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37a34595b2aa8114a8f4e30f3bd8f993" target="_blank">Open →</a></td></tr>
+          <tr><td>Onboarding a sub or checking COI</td><td>🔧 Subcontractor Management Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37a34595b2aa8197a9e9f1b1600a77a6" target="_blank">Open →</a></td></tr>
+          <tr><td>Attracting or converting leads</td><td>🎯 Lead Generation Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37934595b2aa81929be8ca9fc089a44e" target="_blank">Open →</a></td></tr>
+          <tr><td>Managing a client complaint or close</td><td>❤️ Client Experience Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37a34595b2aa81f997b7fbbd987cc76d" target="_blank">Open →</a></td></tr>
+          <tr><td>Website updates or SEO</td><td>🌐 Website & SEO Playbook</td><td><a class="ref-link" href="https://app.notion.com/p/37a34595b2aa81c2bce5c28e46be5e1f" target="_blank">Open →</a></td></tr>
+          <tr><td>Need an SOP for a process</td><td>📋 SOP Hub</td><td><a class="ref-link" href="https://app.notion.com/p/34a34595b2aa81b48377ec547be3aa62" target="_blank">Open →</a></td></tr>
+          <tr><td>Need a Claude prompt</td><td>🤖 AI Prompts Page</td><td><a class="ref-link" href="https://app.notion.com/p/32634595b2aa80c3977dfab055718590" target="_blank">Open →</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="no-results" id="noResults">No results found. Try a different search term.</div>
+
+</div>
+
+<script>
+  let activeTab = 'all';
+
+  function setTab(tab, el) {
+    activeTab = tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+
+    const show = (id) => document.getElementById(id)?.classList.remove('hidden');
+    const hide = (id) => document.getElementById(id)?.classList.add('hidden');
+
+    const allBlocks = ['block-stats','block-sop','block-playbook','block-prompt','block-ref'];
+
+    if (tab === 'all') {
+      allBlocks.forEach(b => { if (b !== 'block-ref') show(b); else hide(b); });
+    } else if (tab === 'sop') {
+      hide('block-stats'); show('block-sop'); hide('block-playbook'); hide('block-prompt'); hide('block-ref');
+    } else if (tab === 'playbook') {
+      hide('block-stats'); hide('block-sop'); show('block-playbook'); hide('block-prompt'); hide('block-ref');
+    } else if (tab === 'prompt') {
+      hide('block-stats'); hide('block-sop'); hide('block-playbook'); show('block-prompt'); hide('block-ref');
+    } else if (tab === 'ref') {
+      hide('block-stats'); hide('block-sop'); hide('block-playbook'); hide('block-prompt'); show('block-ref');
+    }
+
+    document.getElementById('searchInput').value = '';
+    document.getElementById('noResults').style.display = 'none';
+  }
+
+  function filterCards() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.card');
+    let visibleCount = 0;
+
+    // Show all section blocks when searching
+    if (query) {
+      ['block-sop','block-playbook','block-prompt'].forEach(b => {
+        document.getElementById(b)?.classList.remove('hidden');
+      });
+      document.getElementById('block-stats')?.classList.add('hidden');
+      document.getElementById('block-ref')?.classList.add('hidden');
+    } else {
+      // Reset to current tab
+      const activeTabEl = document.querySelector('.tab.active');
+      if (activeTabEl) {
+        const tabText = activeTabEl.textContent.trim();
+        if (tabText.includes('All')) { setTab('all', activeTabEl); }
+      }
+      document.getElementById('noResults').style.display = 'none';
+      return;
+    }
+
+    cards.forEach(card => {
+      const text = (card.dataset.text || '') + ' ' + card.querySelector('.card-name')?.textContent + ' ' + card.querySelector('.card-desc')?.textContent;
+      const match = text.toLowerCase().includes(query);
+      card.style.display = match ? 'flex' : 'none';
+      if (match) visibleCount++;
+    });
+
+    document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+  }
+</script>
+
+</body>
+</html>
