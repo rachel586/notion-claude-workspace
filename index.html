@@ -3,436 +3,344 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PPC Office</title>
+  <title>PPC Office — Home</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #FAFAFA;
+      background: #F5F4F0;
       color: #272421;
       min-height: 100vh;
     }
 
     /* COVER */
     .cover {
-      height: 140px;
+      height: 130px;
       background: #555736;
       position: relative;
       overflow: hidden;
     }
-    .cover::before {
-      content: '';
+    .cover-pattern {
       position: absolute;
       inset: 0;
-      background: repeating-linear-gradient(
-        135deg,
-        transparent,
-        transparent 24px,
-        rgba(255,255,255,0.04) 24px,
-        rgba(255,255,255,0.04) 48px
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent 0px,
+        transparent 20px,
+        rgba(255,255,255,0.03) 20px,
+        rgba(255,255,255,0.03) 40px
       );
     }
-    .cover-label {
+    .cover-wordmark {
       position: absolute;
-      bottom: 18px;
-      left: 40px;
+      bottom: 16px;
+      left: 44px;
       font-size: 11px;
-      letter-spacing: 2.5px;
+      letter-spacing: 3px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.4);
       font-weight: 500;
     }
 
-    /* PAGE WRAPPER */
+    /* LAYOUT */
     .page {
-      max-width: 880px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 0 40px 60px;
+      padding: 0 40px 80px;
     }
 
     /* HEADER */
+    .header-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
     .page-icon {
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
       background: #272421;
       border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
-      margin-top: -32px;
-      position: relative;
-      z-index: 2;
-      border: 3px solid #FAFAFA;
-      box-shadow: 0 2px 12px rgba(39,36,33,0.15);
+      font-size: 26px;
+      margin-top: -30px;
+      border: 3px solid #F5F4F0;
+      flex-shrink: 0;
     }
     .page-title {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 700;
-      color: #272421;
-      margin-top: 14px;
       letter-spacing: -0.5px;
+      color: #272421;
+      padding-bottom: 4px;
     }
-    .page-meta {
-      font-size: 13px;
-      color: #888;
-      margin-top: 4px;
-      margin-bottom: 28px;
+    .page-date {
+      font-size: 12.5px;
+      color: #999;
+      margin-bottom: 32px;
     }
 
-    /* SECTION LABEL */
+    /* SECTION */
+    .section { margin-bottom: 36px; }
     .section-label {
-      font-size: 10.5px;
-      font-weight: 600;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: #aaa;
-      margin-bottom: 12px;
-      margin-top: 32px;
-    }
-
-    /* PINNED CALLOUT */
-    .callout {
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      border-radius: 10px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-    .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-    .callout-text { font-size: 13.5px; color: #78350f; line-height: 1.5; }
-    .callout-text strong { color: #92400e; }
-
-    /* STATS ROW */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    .stat-card {
-      background: #fff;
-      border: 1px solid #e8e6e3;
-      border-radius: 12px;
-      padding: 18px 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: #555736;
-      border-radius: 12px 12px 0 0;
-    }
-    .stat-card.gray::after { background: #ccc; }
-    .stat-num {
-      font-size: 32px;
+      font-size: 10px;
       font-weight: 700;
-      color: #555736;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .stat-num.muted { color: #aaa; }
-    .stat-label {
-      font-size: 12px;
-      color: #888;
-      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 14px;
     }
 
     /* NAV GRID */
     .nav-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
     .nav-card {
       background: #fff;
-      border: 1px solid #e8e6e3;
-      border-radius: 12px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      cursor: default;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      border: 1px solid #E8E5E0;
+      border-radius: 14px;
+      padding: 18px 20px 16px;
       text-decoration: none;
       color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s, transform 0.1s;
+      cursor: pointer;
     }
     .nav-card:hover {
       border-color: #555736;
-      box-shadow: 0 2px 10px rgba(85,87,54,0.08);
+      transform: translateY(-1px);
     }
-    .nav-card.primary { border-left: 3px solid #555736; }
-    .nav-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 9px;
+    .nav-card.featured {
+      border-left: 3px solid #555736;
+    }
+    .nav-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-emoji {
+      font-size: 22px;
+      line-height: 1;
+    }
+    .nav-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #272421;
+    }
+    .nav-desc {
+      font-size: 12px;
+      color: #999;
+      line-height: 1.45;
+    }
+    .nav-arrow {
+      margin-top: auto;
+      font-size: 11px;
+      color: #ccc;
+      text-align: right;
+    }
+
+    /* KPI SECTION */
+    .kpi-placeholder {
+      background: #fff;
+      border: 1.5px dashed #DDD;
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .kpi-placeholder p {
+      font-size: 13px;
+      color: #bbb;
+      margin-top: 6px;
+    }
+    .kpi-placeholder .kpi-icon {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    /* TEAM GRID */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .team-card {
+      background: #fff;
+      border: 1px solid #E8E5E0;
+      border-radius: 14px;
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.15s, transform 0.1s;
+      cursor: pointer;
+    }
+    .team-card:hover {
+      border-color: #555736;
+      transform: translateY(-1px);
+    }
+    .team-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 20px;
       flex-shrink: 0;
     }
-    .nav-icon.olive { background: rgba(85,87,54,0.1); }
-    .nav-icon.dark { background: rgba(39,36,33,0.06); }
-    .nav-title {
+    .team-avatar.rae { background: rgba(85,87,54,0.12); }
+    .team-avatar.pedro { background: rgba(39,36,33,0.08); }
+    .team-avatar.open { background: #F5F4F0; border: 1.5px dashed #ddd; }
+    .team-name {
       font-size: 14px;
       font-weight: 600;
       color: #272421;
       margin-bottom: 3px;
     }
-    .nav-desc {
+    .team-role {
       font-size: 12px;
-      color: #888;
-      line-height: 1.4;
-    }
-    .nav-badge {
-      display: inline-block;
-      margin-top: 6px;
-      font-size: 10.5px;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-weight: 500;
-    }
-    .nav-badge.olive {
-      background: rgba(85,87,54,0.1);
-      color: #555736;
-    }
-    .nav-badge.gray {
-      background: #f3f2f0;
-      color: #888;
-    }
-
-    /* TWO-COL */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    /* FOCUS CARD */
-    .focus-card {
-      background: #fff;
-      border: 1px solid #e8e6e3;
-      border-radius: 12px;
-      padding: 18px 20px;
-    }
-    .focus-card-header {
-      font-size: 12px;
-      font-weight: 600;
-      color: #888;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .focus-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid #f3f2f0;
-      font-size: 13px;
-      color: #272421;
-    }
-    .focus-item:last-child { border-bottom: none; }
-    .focus-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .focus-dot.active { background: #555736; }
-    .focus-dot.pending { background: #d1d0cd; }
-    .focus-dot.done { background: #4caf50; }
-    .focus-status {
-      margin-left: auto;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-weight: 500;
-    }
-    .focus-status.active {
-      background: rgba(85,87,54,0.1);
-      color: #555736;
-    }
-    .focus-status.pending {
-      background: #f3f2f0;
-      color: #888;
-    }
-    .focus-status.done {
-      background: rgba(76,175,80,0.1);
-      color: #2e7d32;
+      color: #aaa;
     }
 
     /* DIVIDER */
-    hr {
-      border: none;
-      border-top: 1px solid #ebe9e6;
-      margin: 8px 0;
-    }
-
-    /* DATE */
-    .today {
-      font-size: 12px;
-      color: #aaa;
-      margin-bottom: 2px;
+    .divider {
+      height: 1px;
+      background: #ECEAE6;
+      margin: 36px 0;
     }
   </style>
 </head>
 <body>
 
-  <div class="cover">
-    <div class="cover-label">Platinum Premier Construction</div>
-  </div>
+<div class="cover">
+  <div class="cover-pattern"></div>
+  <div class="cover-wordmark">Platinum Premier Construction</div>
+</div>
 
-  <div class="page">
+<div class="page">
+
+  <div class="header-row">
     <div class="page-icon">🏗️</div>
     <div class="page-title">PPC Office</div>
-    <div class="page-meta" id="meta">Loading date...</div>
+  </div>
+  <div class="page-date" id="date-line">—</div>
 
-    <!-- PINNED NOTICE -->
-    <div class="callout">
-      <div class="callout-icon">📌</div>
-      <div class="callout-text">
-        <strong>WC Premium Audit due Aug 3.</strong> Gather payroll register, 941s, SUI returns, and subcontractor COIs. Pedro to confirm sub list.
-      </div>
-    </div>
-
-    <!-- AT A GLANCE -->
-    <div class="section-label">At a Glance</div>
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-num">4</div>
-        <div class="stat-label">Active Office Projects</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="days-left">—</div>
-        <div class="stat-label">Days to Audit Deadline</div>
-      </div>
-      <div class="stat-card gray">
-        <div class="stat-num muted">—</div>
-        <div class="stat-label">Next Scheduled Post</div>
-      </div>
-    </div>
-
-    <!-- NAVIGATE -->
-    <div class="section-label">Navigate</div>
+  <!-- QUICK NAVIGATION -->
+  <div class="section">
+    <div class="section-label">Quick Navigation</div>
     <div class="nav-grid">
-      <a class="nav-card primary" href="#">
-        <div class="nav-icon olive">📋</div>
-        <div>
-          <div class="nav-title">Office Projects</div>
-          <div class="nav-desc">Internal ops, automations, workspace builds</div>
-          <span class="nav-badge olive">4 in progress</span>
-        </div>
-      </a>
-      <a class="nav-card" href="#">
-        <div class="nav-icon dark">📅</div>
-        <div>
-          <div class="nav-title">Content Planner</div>
-          <div class="nav-desc">Social media calendar, captions, scheduling</div>
-          <span class="nav-badge gray">IG · FB · LinkedIn</span>
-        </div>
-      </a>
-      <a class="nav-card" href="#">
-        <div class="nav-icon dark">📖</div>
-        <div>
-          <div class="nav-title">SOPs & Playbooks</div>
-          <div class="nav-desc">Process docs, guides, how-tos</div>
-          <span class="nav-badge gray">PPC Playbook Hub</span>
-        </div>
-      </a>
-      <a class="nav-card" href="#">
-        <div class="nav-icon olive">✅</div>
-        <div>
-          <div class="nav-title">Tasks</div>
-          <div class="nav-desc">Daily to-dos, recurring work, follow-ups</div>
-          <span class="nav-badge olive">Your dashboard</span>
-        </div>
-      </a>
-      <a class="nav-card" href="#">
-        <div class="nav-icon dark">👥</div>
-        <div>
-          <div class="nav-title">Team Spaces</div>
-          <div class="nav-desc">Shared pages for Pedro & the team</div>
-          <span class="nav-badge gray">Shared</span>
-        </div>
-      </a>
-      <a class="nav-card" href="#">
-        <div class="nav-icon dark">🌐</div>
-        <div>
-          <div class="nav-title">Website & Newsletters</div>
-          <div class="nav-desc">Site updates, SEO, email campaigns</div>
-          <span class="nav-badge gray">External</span>
-        </div>
-      </a>
-    </div>
 
-    <!-- CURRENT FOCUS -->
-    <div class="section-label">Current Focus</div>
-    <div class="two-col">
-      <div class="focus-card">
-        <div class="focus-card-header">🛠️ Office Projects</div>
-        <div class="focus-item">
-          <div class="focus-dot active"></div>
-          SOP Overhaul — PPC Office
-          <span class="focus-status active">In progress</span>
+      <a class="nav-card featured" href="https://app.notion.com/p/35934595b2aa8034a4eed7794f61ad8d" target="_blank">
+        <div class="nav-top">
+          <span class="nav-emoji">🚧</span>
+          <span class="nav-name">Projects</span>
         </div>
-        <div class="focus-item">
-          <div class="focus-dot active"></div>
-          Transition to JobTread
-          <span class="focus-status active">In progress</span>
-        </div>
-        <div class="focus-item">
-          <div class="focus-dot active"></div>
-          Email Organization
-          <span class="focus-status active">In progress</span>
-        </div>
-        <div class="focus-item">
-          <div class="focus-dot pending"></div>
-          Website SEO
-          <span class="focus-status pending">Not started</span>
-        </div>
-        <div class="focus-item">
-          <div class="focus-dot done"></div>
-          Company Booklet / Portfolio
-          <span class="focus-status done">Done</span>
-        </div>
-      </div>
-      <div class="focus-card">
-        <div class="focus-card-header">📣 Upcoming Content</div>
-        <div class="focus-item" style="color:#aaa; font-style:italic; font-size:12px; padding:12px 0; border:none;">
-          Connect your Content Planner database to show scheduled posts here.
-        </div>
-      </div>
-    </div>
+        <div class="nav-desc">Active jobs, timelines, and progress tracking</div>
+        <div class="nav-arrow">Open →</div>
+      </a>
 
+      <a class="nav-card" href="https://app.notion.com/p/1fa34595b2aa804eaa53ed2873b8cca0" target="_blank">
+        <div class="nav-top">
+          <span class="nav-emoji">📅</span>
+          <span class="nav-name">Content Planner</span>
+        </div>
+        <div class="nav-desc">Social media calendar, captions, and drafts</div>
+        <div class="nav-arrow">Open →</div>
+      </a>
+
+      <a class="nav-card" href="https://app.notion.com/p/3aa34595b2aa81589119f4102d8ec16c" target="_blank">
+        <div class="nav-top">
+          <span class="nav-emoji">📚</span>
+          <span class="nav-name">SOPs & Playbooks</span>
+        </div>
+        <div class="nav-desc">Processes, guides, and strategy playbooks</div>
+        <div class="nav-arrow">Open →</div>
+      </a>
+
+      <a class="nav-card" href="https://app.notion.com/p/36434595b2aa80ac84b3d9440ad1b22e" target="_blank">
+        <div class="nav-top">
+          <span class="nav-emoji">🔧</span>
+          <span class="nav-name">Tools & Softwares</span>
+        </div>
+        <div class="nav-desc">Every tool PPC uses and what it's for</div>
+        <div class="nav-arrow">Open →</div>
+      </a>
+
+      <a class="nav-card" href="https://app.notion.com/p/3aa34595b2aa81589119f4102d8ec16c" target="_blank">
+        <div class="nav-top">
+          <span class="nav-emoji">📖</span>
+          <span class="nav-name">Company Hub</span>
+        </div>
+        <div class="nav-desc">About PPC, announcements, and onboarding</div>
+        <div class="nav-arrow">Open →</div>
+      </a>
+
+    </div>
   </div>
 
-  <script>
-    const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('meta').textContent =
-      now.toLocaleDateString('en-US', options) + '  ·  Design-Build Operations';
+  <div class="divider"></div>
 
-    const deadline = new Date('2026-08-03');
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    const diff = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
-    if (diff >= 0) {
-      document.getElementById('days-left').textContent = diff;
-      if (diff <= 3) document.getElementById('days-left').style.color = '#dc2626';
-    } else {
-      document.getElementById('days-left').textContent = 'Past';
-      document.getElementById('days-left').style.color = '#dc2626';
-    }
-  </script>
+  <!-- KPI -->
+  <div class="section">
+    <div class="section-label">Monthly Goals & KPIs</div>
+    <div class="kpi-placeholder">
+      <div class="kpi-icon">🎯</div>
+      <div style="font-size:14px; font-weight:600; color:#888;">Goals & targets coming soon</div>
+      <p>This section will track monthly KPIs and goals when ready.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TEAM SPACES -->
+  <div class="section">
+    <div class="section-label">Team Spaces</div>
+    <div class="team-grid">
+
+      <a class="team-card" href="https://app.notion.com/p/3aa34595b2aa8177b69af77246cb51ad" target="_blank">
+        <div class="team-avatar rae">👩‍💼</div>
+        <div>
+          <div class="team-name">Rae</div>
+          <div class="team-role">Client Success Manager</div>
+        </div>
+      </a>
+
+      <a class="team-card" href="https://app.notion.com/p/3aa34595b2aa812ea65ddc8e7cf31d1b" target="_blank">
+        <div class="team-avatar pedro">👷</div>
+        <div>
+          <div class="team-name">Pedro</div>
+          <div class="team-role">Owner & Principal</div>
+        </div>
+      </a>
+
+      <a class="team-card" href="https://app.notion.com/p/3aa34595b2aa81718c33d2bfeaaefec0" target="_blank">
+        <div class="team-avatar open">🪑</div>
+        <div>
+          <div class="team-name">Open Role</div>
+          <div class="team-role">Next team member</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const now = new Date();
+  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('date-line').textContent =
+    now.toLocaleDateString('en-US', opts) + '  ·  Design-Build Operations';
+</script>
 
 </body>
 </html>
