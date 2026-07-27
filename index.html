@@ -14,73 +14,11 @@
       min-height: 100vh;
     }
 
-    /* COVER */
-    .cover {
-      height: 130px;
-      background: #555736;
-      position: relative;
-      overflow: hidden;
-    }
-    .cover-pattern {
-      position: absolute;
-      inset: 0;
-      background-image: repeating-linear-gradient(
-        -45deg,
-        transparent 0px,
-        transparent 20px,
-        rgba(255,255,255,0.03) 20px,
-        rgba(255,255,255,0.03) 40px
-      );
-    }
-    .cover-wordmark {
-      position: absolute;
-      bottom: 16px;
-      left: 44px;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      font-weight: 500;
-    }
-
     /* LAYOUT */
     .page {
       max-width: 900px;
       margin: 0 auto;
-      padding: 0 40px 80px;
-    }
-
-    /* HEADER */
-    .header-row {
-      display: flex;
-      align-items: flex-end;
-      gap: 16px;
-      margin-bottom: 6px;
-    }
-    .page-icon {
-      width: 60px;
-      height: 60px;
-      background: #272421;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      margin-top: -30px;
-      border: 3px solid #F5F4F0;
-      flex-shrink: 0;
-    }
-    .page-title {
-      font-size: 30px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #272421;
-      padding-bottom: 4px;
-    }
-    .page-date {
-      font-size: 12.5px;
-      color: #999;
-      margin-bottom: 32px;
+      padding: 32px 40px 80px;
     }
 
     /* SECTION */
@@ -221,18 +159,7 @@
 </head>
 <body>
 
-<div class="cover">
-  <div class="cover-pattern"></div>
-  <div class="cover-wordmark">Platinum Premier Construction</div>
-</div>
-
 <div class="page">
-
-  <div class="header-row">
-    <div class="page-icon">🏗️</div>
-    <div class="page-title">PPC Office</div>
-  </div>
-  <div class="page-date" id="date-line">—</div>
 
   <!-- QUICK NAVIGATION -->
   <div class="section">
@@ -335,12 +262,6 @@
 
 </div>
 
-<script>
-  const now = new Date();
-  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('date-line').textContent =
-    now.toLocaleDateString('en-US', opts) + '  ·  Design-Build Operations';
-</script>
 
 </body>
 </html>
